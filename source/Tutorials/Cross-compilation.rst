@@ -172,14 +172,13 @@ It will be used to install the ros2 dependencies on the target file-system with 
 The standard `setup <Linux-Development-Setup>`__ process of ROS2 is run inside an arm docker. This is possible thanks to ``qemu-static``, which will emulate an arm machine. The base image used is an Ubuntu Bionic from Docker Hub.
 
 .. code-block:: bash
-
-    docker build -t arm_ros2:latest -f ros2_ws/src/ros2/cross_compile/sysroot/Dockerfile_ubuntu_arm .
-    docker run --name arm_sysroot arm_ros2:latest
+    export ARM_ARCH=arm64v8  # or `arm32v7`
+    docker build --build-arg ARM_ARCH -t arm_ros2:latest -f ros2_ws/src/ros2/cross_compile/sysroot/Dockerfile_ubuntu_arm .
 
 Export the resulting container to a tarball and extract it:
 
 .. code-block:: bash
-
+    docker run --name arm_sysroot arm_ros2:latest
     docker container export -o sysroot_docker.tar arm_sysroot
     mkdir sysroot_docker
     tar -C sysroot_docker -xf sysroot_docker.tar lib usr opt etc
@@ -194,8 +193,8 @@ Set the variables used by the generic toolchain-file
 
 .. code-block:: bash
 
-    export TARGET_ARCH=aarch64
-    export TARGET_TRIPLE=aarch64-linux-gnu
+    export TARGET_ARCH=aarch64  # or `arm`
+    export TARGET_TRIPLE=aarch64-linux-gnu  # or `arm-linux-gnueabihf`
     export CC=/usr/bin/$TARGET_TRIPLE-gcc
     export CXX=/usr/bin/$TARGET_TRIPLE-g++
     export CROSS_COMPILE=/usr/bin/$TARGET_TRIPLE-
