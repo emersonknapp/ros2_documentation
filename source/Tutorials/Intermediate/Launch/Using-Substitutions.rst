@@ -211,7 +211,7 @@ To do this, create following file in the ``launch`` folder of the ``launch_tutor
 
       from launch import LaunchDescription
       from launch.actions import IncludeLaunchDescription
-      from launch.launch_description_sources import PythonLaunchDescriptionSource
+      from launch.launch_description_sources import AnyLaunchDescriptionSource
       from launch.substitutions import PathJoinSubstitution, TextSubstitution
 
 
@@ -222,7 +222,7 @@ To do this, create following file in the ``launch`` folder of the ``launch_tutor
 
           return LaunchDescription([
               IncludeLaunchDescription(
-                  PythonLaunchDescriptionSource([
+                  AnyLaunchDescriptionSource([
                       PathJoinSubstitution([
                           FindPackageShare('launch_tutorial'),
                           'launch',

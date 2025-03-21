@@ -185,13 +185,11 @@ Each launch file performs the following actions:
         from launch.actions import DeclareLaunchArgument
         from launch.actions import GroupAction
         from launch.actions import IncludeLaunchDescription
-        from launch.launch_description_sources import PythonLaunchDescriptionSource
+        from launch.launch_description_sources import AnyLaunchDescriptionSource
         from launch.substitutions import LaunchConfiguration
         from launch.substitutions import TextSubstitution
         from launch_ros.actions import Node
         from launch_ros.actions import PushROSNamespace
-        from launch_xml.launch_description_sources import XMLLaunchDescriptionSource
-        from launch_yaml.launch_description_sources import YAMLLaunchDescriptionSource
 
 
         def generate_launch_description():
@@ -218,7 +216,7 @@ Each launch file performs the following actions:
 
             # include another launch file
             launch_include = IncludeLaunchDescription(
-                PythonLaunchDescriptionSource(
+                AnyLaunchDescriptionSource(
                     os.path.join(
                         get_package_share_directory('demo_nodes_cpp'),
                         'launch/topics/talker_listener_launch.py'))
@@ -229,7 +227,7 @@ Each launch file performs the following actions:
                     # push_ros_namespace first to set namespace of included nodes for following actions
                     PushROSNamespace('chatter_py_ns'),
                     IncludeLaunchDescription(
-                        PythonLaunchDescriptionSource(
+                        AnyLaunchDescriptionSource(
                             os.path.join(
                                 get_package_share_directory('demo_nodes_cpp'),
                                 'launch/topics/talker_listener_launch.py'))
@@ -243,7 +241,7 @@ Each launch file performs the following actions:
                     # push_ros_namespace first to set namespace of included nodes for following actions
                     PushROSNamespace('chatter_xml_ns'),
                     IncludeLaunchDescription(
-                        XMLLaunchDescriptionSource(
+                        AnyLaunchDescriptionSource(
                             os.path.join(
                                 get_package_share_directory('demo_nodes_cpp'),
                                 'launch/topics/talker_listener_launch.xml'))
@@ -257,7 +255,7 @@ Each launch file performs the following actions:
                     # push_ros_namespace first to set namespace of included nodes for following actions
                     PushROSNamespace('chatter_yaml_ns'),
                     IncludeLaunchDescription(
-                        YAMLLaunchDescriptionSource(
+                        AnyLaunchDescriptionSource(
                             os.path.join(
                                 get_package_share_directory('demo_nodes_cpp'),
                                 'launch/topics/talker_listener_launch.yaml'))

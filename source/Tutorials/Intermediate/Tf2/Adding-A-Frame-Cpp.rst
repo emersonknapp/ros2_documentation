@@ -192,14 +192,14 @@ With your text editor, create a new file called ``turtle_tf2_fixed_frame_demo_la
 
     from launch import LaunchDescription
     from launch.actions import IncludeLaunchDescription
-    from launch.launch_description_sources import PythonLaunchDescriptionSource
+    from launch.launch_description_sources import AnyLaunchDescriptionSource
 
     from launch_ros.actions import Node
 
 
     def generate_launch_description():
         demo_nodes = IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([os.path.join(
+            AnyLaunchDescriptionSource([os.path.join(
                 get_package_share_directory('learning_tf2_cpp'), 'launch'),
                 '/turtle_tf2_demo_launch.py']),
             )
@@ -479,14 +479,14 @@ To test this code, create a new launch file ``turtle_tf2_dynamic_frame_demo_laun
 
     from launch import LaunchDescription
     from launch.actions import IncludeLaunchDescription
-    from launch.launch_description_sources import PythonLaunchDescriptionSource
+    from launch.launch_description_sources import AnyLaunchDescriptionSource
 
     from launch_ros.actions import Node
 
 
     def generate_launch_description():
         demo_nodes = IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([os.path.join(
+            AnyLaunchDescriptionSource([os.path.join(
                 get_package_share_directory('learning_tf2_cpp'), 'launch'),
                 '/turtle_tf2_demo_launch.py']),
             launch_arguments={'target_frame': 'carrot1'}.items(),
