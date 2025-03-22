@@ -60,8 +60,6 @@ Only two modules are specific to testing: the general-purpose ``unittest``, and 
 
 .. code-block:: python
 
-  import os
-  import sys
   import time
   import unittest
 

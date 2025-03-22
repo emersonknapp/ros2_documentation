@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 
 from ament_index_python import get_package_share_directory
 
@@ -6,55 +6,30 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.actions import GroupAction
 from launch.actions import IncludeLaunchDescription
-from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
-from launch.substitutions import TextSubstitution
 from launch_ros.actions import Node
 from launch_ros.actions import PushROSNamespace
-from launch_xml.launch_description_sources import XMLLaunchDescriptionSource
-from launch_yaml.launch_description_sources import YAMLLaunchDescriptionSource
 
 
 def generate_launch_description():
 
     # args that can be set from the command line or a default will be used
-    background_r_launch_arg = DeclareLaunchArgument(
-        "background_r", default_value=TextSubstitution(text="0")
-    )
-    background_g_launch_arg = DeclareLaunchArgument(
-        "background_g", default_value=TextSubstitution(text="255")
-    )
-    background_b_launch_arg = DeclareLaunchArgument(
-        "background_b", default_value=TextSubstitution(text="0")
-    )
-    chatter_py_ns_launch_arg = DeclareLaunchArgument(
-        "chatter_py_ns", default_value=TextSubstitution(text="chatter/py/ns")
-    )
-    chatter_xml_ns_launch_arg = DeclareLaunchArgument(
-        "chatter_xml_ns", default_value=TextSubstitution(text="chatter/xml/ns")
-    )
-    chatter_yaml_ns_launch_arg = DeclareLaunchArgument(
-        "chatter_yaml_ns", default_value=TextSubstitution(text="chatter/yaml/ns")
-    )
+    background_r_launch_arg = DeclareLaunchArgument("background_r", default_value="0")
+    background_g_launch_arg = DeclareLaunchArgument("background_g", default_value="255")
+    background_b_launch_arg = DeclareLaunchArgument("background_b", default_value="0")
+    chatter_py_ns_launch_arg = DeclareLaunchArgument("chatter_py_ns", default_value="chatter/py/ns")
+    chatter_xml_ns_launch_arg = DeclareLaunchArgument("chatter_xml_ns", default_value="chatter/xml/ns")
+    chatter_yaml_ns_launch_arg = DeclareLaunchArgument("chatter_yaml_ns", default_value="chatter/yaml/ns")
 
+    demo_topics_launch = Path(get_package_share_directory('demo_nodes_cpp')) / 'launch' / 'topics'
     # include another launch file
-    launch_include = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(
-                get_package_share_directory('demo_nodes_cpp'),
-                'launch/topics/talker_listener_launch.py'))
-    )
+    launch_include = IncludeLaunchDescription(demo_topics_launch / 'talker_listener_launch.py')
     # include a Python launch file in the chatter_py_ns namespace
     launch_py_include_with_namespace = GroupAction(
         actions=[
             # push_ros_namespace first to set namespace of included nodes for following actions
             PushROSNamespace('chatter_py_ns'),
-            IncludeLaunchDescription(
-                PythonLaunchDescriptionSource(
-                    os.path.join(
-                        get_package_share_directory('demo_nodes_cpp'),
-                        'launch/topics/talker_listener_launch.py'))
-            ),
+            IncludeLaunchDescription(demo_topics_launch / 'talker_listener_launch.py')
         ]
     )
 
@@ -63,12 +38,7 @@ def generate_launch_description():
         actions=[
             # push_ros_namespace first to set namespace of included nodes for following actions
             PushROSNamespace('chatter_xml_ns'),
-            IncludeLaunchDescription(
-                XMLLaunchDescriptionSource(
-                    os.path.join(
-                        get_package_share_directory('demo_nodes_cpp'),
-                        'launch/topics/talker_listener_launch.xml'))
-            ),
+            IncludeLaunchDescription(demo_topics_launch / 'talker_listener_launch.xml')
         ]
     )
 
@@ -77,12 +47,7 @@ def generate_launch_description():
         actions=[
             # push_ros_namespace first to set namespace of included nodes for following actions
             PushROSNamespace('chatter_yaml_ns'),
-            IncludeLaunchDescription(
-                YAMLLaunchDescriptionSource(
-                    os.path.join(
-                        get_package_share_directory('demo_nodes_cpp'),
-                        'launch/topics/talker_listener_launch.yaml'))
-            ),
+            IncludeLaunchDescription(demo_topics_launch / 'talker_listener_launch.yaml')
         ]
     )
 

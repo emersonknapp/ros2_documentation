@@ -178,17 +178,13 @@ Afterwards, we need to update the ``launch_turtlesim_launch.py`` to include the 
    from launch_ros.actions import PushROSNamespace
 
       ...
-      turtlesim_world_2 = IncludeLaunchDescription(
-         PythonLaunchDescriptionSource([os.path.join(
-            get_package_share_directory('launch_tutorial'), 'launch'),
-            '/turtlesim_world_2_launch.py'])
-         )
-      turtlesim_world_2_with_namespace = GroupAction(
+      IncludeLaunchDescription(launch_dir / 'turtlesim_world_2_launch.py'),
+      GroupAction(
         actions=[
             PushROSNamespace('turtlesim2'),
-            turtlesim_world_2,
+            IncludeLaunchDescription(launch_dir / 'turtlesim_world_2_launch.py'),
          ]
-      )
+      ),
 
 Finally, we replace the ``turtlesim_world_2`` to ``turtlesim_world_2_with_namespace`` in the ``return LaunchDescription`` statement.
 As a result, each node in the ``turtlesim_world_2_launch.py`` launch description will have a ``turtlesim2`` namespace.

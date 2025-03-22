@@ -180,7 +180,6 @@ To do this, create following file in the ``launch`` folder of the ``launch_tutor
       :lines: 17-21
 
     The ``launch_arguments`` dictionary with ``turtlesim_ns`` and ``use_provided_red`` arguments is passed to the ``IncludeLaunchDescription`` action.
-    The ``TextSubstitution`` substitution is used to define the ``new_background_r`` argument with the value of the ``background_r`` key in the ``colors`` dictionary.
 
     .. literalinclude:: launch/example_main_launch.py
       :lines: 23-28

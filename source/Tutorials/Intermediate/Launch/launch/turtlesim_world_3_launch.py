@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 
 from ament_index_python.packages import get_package_share_directory
 
@@ -7,10 +7,7 @@ from launch_ros.actions import Node
 
 
 def generate_launch_description():
-    config = os.path.join(
-        get_package_share_directory('launch_tutorial'),
-        'config',
-        'turtlesim.yaml')
+    config = Path(get_package_share_directory('launch_tutorial')) / 'config' / 'turtlesim.yaml'
 
     return LaunchDescription([
         Node(
